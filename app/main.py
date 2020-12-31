@@ -64,7 +64,7 @@ async def get_current_user_from_token(token: str = Depends(oauth2_scheme)) -> in
     return uid
 
 
-def create_system_token():
+def create_system_token() -> str:
     expire = datetime.utcnow() + timedelta(minutes = ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = {"sub": "0", "exp": expire}
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm = ALGORITHM)
@@ -72,7 +72,7 @@ def create_system_token():
 
 
 
-@app.post("/matches/samples", response_model = str)
+@app.post("/v1/matches/samples", response_model = str)
 async def new_sample_created(sample: models.Sample,
         current_user: int = Depends(get_current_user_from_token)):
     if current_user != 0:
@@ -84,7 +84,7 @@ async def new_sample_created(sample: models.Sample,
     return "OK"
 
 
-@app.patch("/matches/samples", response_model = str)
+@app.patch("/v1/matches/samples", response_model = str)
 async def sample_altered(sample: models.Sample,
         current_user: int = Depends(get_current_user_from_token)):
     if current_user != 0:
@@ -96,12 +96,12 @@ async def sample_altered(sample: models.Sample,
     return "OK"
 
 
-@app.post("/matches/wishes", response_model = str)
+@app.post("/v1/matches/wishes", response_model = str)
 async def new_wish_created():
     return "not yet implemented"
 
 
-@app.patch("/matches/wishes", response_model = str)
+@app.patch("/v1/matches/wishes", response_model = str)
 async def wish_altered():
     return "not yet implemented"
 
