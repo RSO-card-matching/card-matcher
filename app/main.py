@@ -9,9 +9,8 @@ from fastapi import Depends, FastAPI, Form, HTTPException, Path, status
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
 from jose import JWTError, jwt
-from sqlalchemy.orm import Session
 
-from . import models, database, processing
+from . import models, processing
 
 
 SECRET_KEY = getenv("OAUTH_SIGN_KEY")
@@ -22,16 +21,6 @@ if (SECRET_KEY == None):
     print("Please define OAuth signing key!")
     exit(-1)
 
-# fastAPI dependecy magic
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# init testing DB
-# database.initBase(database.SessionLocal())
 
 if (getenv("OAUTH_TOKEN_PROVIDER") == None):
     print("Please provide token provider URL!")
@@ -124,21 +113,14 @@ async def liveness_check():
 
 
 @app.get("/health/ready", response_model = dict)
-async def readiness_check(db: Session = Depends(get_db)):
-    if database.test_connection(db):
-        try:
-            requests.get(getenv("OAUTH_TOKEN_PROVIDER") + "/tokens", timeout = 1.)
-            return {
-                "database": "OK",
-                "token_provider": "OK"
-            }
-        except requests.exceptions.Timeout:
-            raise HTTPException(
-                status_code = status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail = "Token provider down",
-            )
-    else:
+async def readiness_check():
+    try:
+        requests.get(getenv("OAUTH_TOKEN_PROVIDER") + "/tokens", timeout = 1.)
+        return {
+            "token_provider": "OK"
+        }
+    except requests.exceptions.Timeout:
         raise HTTPException(
             status_code = status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail = "Database down",
+            detail = "Token provider down",
         )
