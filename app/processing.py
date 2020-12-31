@@ -22,10 +22,7 @@ def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
                 + f" in a state \"{sample.state}\", contact them for more info.")
             requests.post(
                 getenv("MESSAGES_IP") + "/v1/messages",
-                data = {
-                    "receiver_id": wish["user_id"],
-                    "content": content
-                },
+                data = f"{{\"receiver_id\": {wish['user_id']},\"content\": {content}}}",
                 headers = {
                     "accept": "application/json",
                     "Authorization": "Bearer " + token
@@ -51,10 +48,7 @@ def alert_for_edited_sample(token: str, sample: models.Sample):
                 + f" in a state \"{sample.state}\", contact them for more info.")
             requests.post(
                 getenv("MESSAGES_IP") + "/v1/messages",
-                data = {
-                    "receiver_id": wish["user_id"],
-                    "content": content
-                },
+                data = f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{content}\"}}",
                 headers = {
                     "accept": "application/json",
                     "Authorization": "Bearer " + token
