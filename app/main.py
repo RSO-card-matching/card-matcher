@@ -80,7 +80,9 @@ async def new_sample_created(sample: models.Sample,
             status_code = status.HTTP_401_UNAUTHORIZED,
             detail = "Forbidden for non-system users"
         )
+    print("prišlo!")
     processing.alert_for_new_sample(create_system_token(), sample)
+    print("odšlo!")
     return "OK"
 
 
