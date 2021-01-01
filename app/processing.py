@@ -35,7 +35,7 @@ async def alert_for_new_sample(token: str, sample: models.Sample) -> None:
             token,
             sample,
             f"User {sample.user_id} just posted a sample of card {sample.card_id} "
-                + f" in a state \"{sample.state}\", contact them for more info."
+                + f" in a state \\\"{sample.state}\\\", contact them for more info."
         )
     )
     p.start()
@@ -47,7 +47,7 @@ async def alert_for_edited_sample(token: str, sample: models.Sample) -> None:
             token,
             sample,
             f"User {sample.user_id} just edited a sample of card {sample.card_id} "
-                + f" in a state \"{sample.state}\", contact them for more info."
+                + f" in a state \\\"{sample.state}\\\", contact them for more info."
         )
     )
     p.start()
