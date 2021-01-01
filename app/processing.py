@@ -3,7 +3,7 @@ import requests
 
 from . import models
 
-def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
+async def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
     if sample.wts:
         # dobi vse želje
         wishes_req = requests.get(
@@ -28,7 +28,7 @@ def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
                 }
             )
 
-def alert_for_edited_sample(token: str, sample: models.Sample):
+async def alert_for_edited_sample(token: str, sample: models.Sample):
     if sample.wts:
         # dobi vse želje
         wishes_req = requests.get(
@@ -54,8 +54,8 @@ def alert_for_edited_sample(token: str, sample: models.Sample):
                 }
             )
 
-def alert_for_new_wish(*args, **kwargs):
+async def alert_for_new_wish(*args, **kwargs):
     pass
 
-def alert_for_edited_wish(*args, **kwargs):
+async def alert_for_edited_wish(*args, **kwargs):
     pass
