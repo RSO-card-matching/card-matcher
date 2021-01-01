@@ -78,8 +78,8 @@ async def alert_for_new_wish(wish: models.Wish):
         target = alert_separately_wish,
         args = (
             wish,
-            lambda sample: f"User {sample.user_id} has a sample of card {sample.card_id} "
-                + f"in a state \\\"{sample.state}\\\", contact them for more info."
+            lambda sample: f"User {sample['user_id']} has a sample of card {sample['card_id']} "
+                + f"in a state \\\"{sample['state']}\\\", contact them for more info."
         )
     )
     p.start()
@@ -89,8 +89,8 @@ async def alert_for_edited_wish(wish: models.Wish):
         target = alert_separately_wish,
         args = (
             wish,
-            lambda sample: f"User {sample.user_id} has a sample of card {sample.card_id} "
-                + f"in a state \\\"{sample.state}\\\", contact them for more info."
+            lambda sample: f"User {sample['user_id']} has a sample of card {sample['card_id']} "
+                + f"in a state \\\"{sample['state']}\\\", contact them for more info."
         )
     )
     p.start()
