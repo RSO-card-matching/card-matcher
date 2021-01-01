@@ -18,7 +18,6 @@ def alert_separately_sample(token: str, sample: models.Sample, message: str) -> 
         wishes = wishes_req.json()
         # za vsako željo pošlji message userju
         for wish in wishes:
-            print(f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}")
             requests.post(
                 getenv("MESSAGES_IP") + "/v1/messages",
                 data = f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}",
@@ -35,7 +34,7 @@ async def alert_for_new_sample(token: str, sample: models.Sample) -> None:
             token,
             sample,
             f"User {sample.user_id} just posted a sample of card {sample.card_id} "
-                + f" in a state \\\"{sample.state}\\\", contact them for more info."
+                + f"in a state \\\"{sample.state}\\\", contact them for more info."
         )
     )
     p.start()
@@ -47,7 +46,7 @@ async def alert_for_edited_sample(token: str, sample: models.Sample) -> None:
             token,
             sample,
             f"User {sample.user_id} just edited a sample of card {sample.card_id} "
-                + f" in a state \\\"{sample.state}\\\", contact them for more info."
+                + f"in a state \\\"{sample.state}\\\", contact them for more info."
         )
     )
     p.start()
