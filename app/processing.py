@@ -21,7 +21,7 @@ def alert_separately_sample(sample: models.Sample, message: str) -> None:
         for wish in wishes:
             requests.post(
                 getenv("MESSAGES_IP") + "/v1/messages",
-                data = f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}",
+                data = f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}".encode('utf-8'),
                 headers = {
                     "accept": "application/json",
                     "Authorization": "Bearer " + token
@@ -66,7 +66,7 @@ def alert_separately_wish(wish: models.Wish, message) -> None:
     for sample in samples:
         requests.post(
             getenv("MESSAGES_IP") + "/v1/messages",
-            data = f"{{\"receiver_id\": {wish.user_id},\"content\": \"{message(sample)}\"}}",
+            data = f"{{\"receiver_id\": {wish.user_id},\"content\": \"{message(sample)}\"}}".encode('utf.8'),
             headers = {
                 "accept": "application/json",
                 "Authorization": "Bearer " + token
