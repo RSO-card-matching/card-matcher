@@ -18,6 +18,7 @@ def alert_separately_sample(token: str, sample: models.Sample, message: str) -> 
         wishes = wishes_req.json()
         # za vsako željo pošlji message userju
         for wish in wishes:
+            print(f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}")
             requests.post(
                 getenv("MESSAGES_IP") + "/v1/messages",
                 data = f"{{\"receiver_id\": {wish['user_id']},\"content\": \"{message}\"}}",
