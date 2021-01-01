@@ -80,7 +80,7 @@ async def new_sample_created(sample: models.Sample,
             status_code = status.HTTP_401_UNAUTHORIZED,
             detail = "Forbidden for non-system users"
         )
-    await processing.alert_for_new_sample(create_system_token(), sample)
+    await processing.alert_for_new_sample(sample)
     return "OK"
 
 
@@ -92,18 +92,32 @@ async def sample_altered(sample: models.Sample,
             status_code = status.HTTP_401_UNAUTHORIZED,
             detail = "Forbidden for non-system users"
         )
-    await processing.alert_for_edited_sample(create_system_token(), sample)
+    await processing.alert_for_edited_sample(sample)
     return "OK"
 
 
 @app.post("/v1/matches/wishes", response_model = str)
-async def new_wish_created():
-    return "not yet implemented"
+async def new_wish_created(wish: models.Wish,
+        current_user: int = Depends(get_current_user_from_token)):
+    if current_user != 0:
+        raise HTTPException(
+            status_code = status.HTTP_401_UNAUTHORIZED,
+            detail = "Forbidden for non-system users"
+        )
+    await processing.alert_for_new_wish(wish)
+    return "OK"
 
 
 @app.patch("/v1/matches/wishes", response_model = str)
-async def wish_altered():
-    return "not yet implemented"
+async def wish_altered(wish: models.Wish,
+        current_user: int = Depends(get_current_user_from_token)):
+    if current_user != 0:
+        raise HTTPException(
+            status_code = status.HTTP_401_UNAUTHORIZED,
+            detail = "Forbidden for non-system users"
+        )
+    await processing.alert_for_edited_wish(wish)
+    return "OK"
 
 
 
