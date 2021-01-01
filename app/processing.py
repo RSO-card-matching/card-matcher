@@ -6,6 +6,7 @@ from . import models
 async def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
     if sample.wts:
         # dobi vse želje
+        print("cards IP: " + getenv("USER_CARDS_IP") + f"/v1/wishes?card_id={sample.card_id}")
         wishes_req = requests.get(
             getenv("USER_CARDS_IP") + f"/v1/wishes?card_id={sample.card_id}",
             headers = {
