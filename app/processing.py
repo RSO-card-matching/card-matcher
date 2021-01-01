@@ -7,8 +7,7 @@ def alert_for_new_sample(token: str, sample: models.Sample) -> bool:
     if sample.wts:
         # dobi vse želje
         wishes_req = requests.get(
-            getenv("USER_CARDS_IP") + "/v1/wishes",
-            data = {"card_id": str(sample.card_id)},
+            getenv("USER_CARDS_IP") + f"/v1/wishes?card_id={sample.card_id}",
             headers = {
                 "accept": "application/json",
                 "Authorization": "Bearer " + token
